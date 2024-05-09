@@ -17,44 +17,55 @@ public class myController extends JFrame {
     public myController() {
         super("Gestion des Tâches");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         setSize(900, 700);
+
         setLocationRelativeTo(null);
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
 
-        // Crée les panneaux pour le CardLayout
         Accueil accueil = new Accueil();
         JPanel defaultAccueil = accueil.bienvenuMessage(); // Page d'accueil par défaut
-      // JPanel formulairePanel = createFormulairePanel(); // Panneau de tâches
+
 
         TasksButtons tasksButtons =new TasksButtons(contentPanel,cardLayout);
+
         JPanel formulaireButtons = tasksButtons.createButtonsTasks();
 
-        JPanel loginPanel = createLoginPanel(); // Correction de l'erreur de création multiple
+        JPanel loginPanel = createLoginPanel();
+
         JPanel signUpPanel = createSignUpPanel();
 
-        // Ajoute les panneaux au contentPanel avec des identifiants uniques
+
         contentPanel.add(defaultAccueil, "Accueil");
+
         contentPanel.add(formulaireButtons, "Buttons");
+
         contentPanel.add(loginPanel, "Login");
+
         contentPanel.add(signUpPanel, "SignUp");
 
-        // Ajout des composants à la fenêtre
         add(createToolbar(), BorderLayout.NORTH);
+
         add(contentPanel, BorderLayout.CENTER);
     }
 
     private JPanel createLoginPanel() {
-        LoginF loginF = new LoginF(contentPanel, cardLayout);
-        JPanel loginPanel = loginF.createFormulaireLogin(); // Crée le panneau de connexion
 
-        JButton loginButton = findLoginButton(loginPanel); // Trouve le bouton de connexion
+        LoginF loginF = new LoginF(contentPanel, cardLayout);
+
+        JPanel loginPanel = loginF.createFormulaireLogin();
+
+        JButton loginButton = findLoginButton(loginPanel);
+
         if (loginButton != null) {
+
             loginButton.addActionListener(e -> {
-                // Suppose que le login est réussi
-                isLoggedIn = true; // L'utilisateur est maintenant connecté
-                cardLayout.show(contentPanel, "Buttons"); // Afficher le panneau de tâches
+
+                isLoggedIn = true;
+
+                cardLayout.show(contentPanel, "Buttons");
             });
         }
 
@@ -62,13 +73,15 @@ public class myController extends JFrame {
     }
 
     private JButton findLoginButton(JPanel loginPanel) {
-        // Parcours les composants pour trouver le bouton de connexion
+
         for (Component comp : loginPanel.getComponents()) {
+
             if (comp instanceof JButton && ((JButton) comp).getText().equals("Login")) {
-                return (JButton) comp; // Retourne le bouton s'il est trouvé
+
+                return (JButton) comp;
             }
         }
-        return null; // Retourne null si aucun bouton n'est trouvé
+        return null;
     }
 
     /*private JPanel createFormulairePanel() {
@@ -77,34 +90,48 @@ public class myController extends JFrame {
     }*/
 
     private JPanel createSignUpPanel() {
+
         Sign_upF signUp = new Sign_upF(contentPanel, cardLayout);
+
         return signUp.createFormulaireSignUp();
     }
 
     private JToolBar createToolbar() {
+
         JToolBar toolbar = new JToolBar();
 
        JButton btHome = new JButton("Accueil");
+
         btHome.addActionListener(e -> {
+
             if (isLoggedIn) {
-                cardLayout.show(contentPanel, "Buttons"); // Afficher le panneau de tâches
+
+                cardLayout.show(contentPanel, "Buttons");
+
             } else {
-                cardLayout.show(contentPanel, "Accueil"); // Afficher la page d'accueil par défaut
+
+                cardLayout.show(contentPanel, "Accueil");
             }
         });
 
         JButton btLogin = new JButton("Login");
+
         btLogin.addActionListener(e -> {
+
             cardLayout.show(contentPanel, "Login");
         });
 
         JButton btSignUp = new JButton("SignUp");
+
         btSignUp.addActionListener(e -> {
+
             cardLayout.show(contentPanel, "SignUp");
         });
 
         toolbar.add(btHome);
+
         toolbar.add(btLogin);
+
         toolbar.add(btSignUp);
 
         return toolbar;
