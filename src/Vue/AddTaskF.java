@@ -21,18 +21,18 @@ public class AddTaskF extends JFrame {
 
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
-        contentPanel.add(createFormulairePanel(), "Formulaire");
+        contentPanel.add(createFormulaireTask(), "Formulaire");
         setContentPane(contentPanel);
     }
 
-    public JPanel createFormulairePanel() {
+    public JPanel createFormulaireTask() {
         JPanel panel = new JPanel(new BorderLayout());
-        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
 
         // Ajout des champs au formulaire
-        formPanel.add(new JLabel("Id:"));
+        /*formPanel.add(new JLabel("Id:"));
         JTextField champId = new JTextField();
-        formPanel.add(champId);
+        formPanel.add(champId);*/
 
         formPanel.add(new JLabel("Titre:"));
         JTextField champTitre = new JTextField();
@@ -58,12 +58,11 @@ public class AddTaskF extends JFrame {
 
         boutonSoumettre.addActionListener(e -> {
             try {
-                Integer id = Integer.parseInt(champId.getText()); // Conversion en entier
+
                 String titre = champTitre.getText();
                 String description = champDescription.getText();
                 String priority = champPriority.getText();
 
-                // Valider la date
                 String dateEcheanceStr = champDateEcheance.getText();
                 Date dateEcheance;
                 try {
@@ -72,16 +71,16 @@ public class AddTaskF extends JFrame {
                     dateEcheance = new Date(dateFormat.parse(dateEcheanceStr).getTime());
                 } catch (ParseException ex) {
                     JOptionPane.showMessageDialog(panel, "Format de date incorrect. Utilisez 'yyyy-MM-dd'.", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
-                    return; // Arrête l'action si la date n'est pas valide
+                    return;
                 }
 
                 Connection conn = MySQLConnection.getConnection();
                 if (conn != null) {
                     try {
-                        String sql = "INSERT INTO Taches (id, titre, description, dateEcheance, priority) VALUES (?, ?, ?, ?, ?)";
+                        String sql = "INSERT INTO Taches ( titre, description, dateEcheance, priority) VALUES (?, ?, ?, ?, ?)";
                         PreparedStatement pstmt = conn.prepareStatement(sql);
 
-                        pstmt.setInt(1, id);
+                        //pstmt.setInt(1, id);
                         pstmt.setString(2, titre);
                         pstmt.setString(3, description);
                         pstmt.setDate(4, dateEcheance); // Date au bon format

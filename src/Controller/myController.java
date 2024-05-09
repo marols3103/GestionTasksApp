@@ -1,8 +1,10 @@
 package Controller;
-import  Vue.Accueil;
+
+import Vue.Accueil;
 import Vue.AddTaskF;
 import Vue.LoginF;
 import Vue.Sign_upF;
+import Vue.TasksButtons;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +12,7 @@ import java.awt.*;
 public class myController extends JFrame {
     private JPanel contentPanel;
     private CardLayout cardLayout;
+    private boolean isLoggedIn = false; // Indicateur d'état de connexion
 
     public myController() {
         super("Gestion des Tâches");
@@ -20,67 +23,74 @@ public class myController extends JFrame {
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
 
-        // Crée les panneaux à ajouter au CardLayout
-       //JPanel accueilPanel = createAccueilPanel();
+        // Crée les panneaux pour le CardLayout
         Accueil accueil = new Accueil();
-        JPanel mesageBienvenu = accueil.bienvenuMessage();
-        //JPanel formulairePanel = createFormulairePanel();
-        JPanel loginPanel = createLoginPanel();
-        JPanel signUpPanel = createSignUpPanel(); // Correction de nom
+        JPanel defaultAccueil = accueil.bienvenuMessage(); // Page d'accueil par défaut
+      // JPanel formulairePanel = createFormulairePanel(); // Panneau de tâches
+
+        TasksButtons tasksButtons =new TasksButtons(contentPanel,cardLayout);
+        JPanel formulaireButtons = tasksButtons.createButtonsTasks();
+
+        JPanel loginPanel = createLoginPanel(); // Correction de l'erreur de création multiple
+        JPanel signUpPanel = createSignUpPanel();
 
         // Ajoute les panneaux au contentPanel avec des identifiants uniques
-        contentPanel.add(mesageBienvenu, "Accueil");
-        //contentPanel.add(formulairePanel, "Formulaire");
+        contentPanel.add(defaultAccueil, "Accueil");
+        contentPanel.add(formulaireButtons, "Buttons");
         contentPanel.add(loginPanel, "Login");
         contentPanel.add(signUpPanel, "SignUp");
 
         // Ajout des composants à la fenêtre
         add(createToolbar(), BorderLayout.NORTH);
         add(contentPanel, BorderLayout.CENTER);
-
-    }
-
-    private JPanel createAccueilPanel() {
-        JPanel panel = new JPanel();
-
-        JButton btAddTask = new JButton("Ajouter Tâche");
-        JButton btTrie = new JButton("Trier Tâches");
-        JButton btAffichage = new JButton("Afficher Tâches");
-        JButton btSupprimer = new JButton("Supprimer Tâches");
-
-        btAddTask.addActionListener(e -> {
-            cardLayout.show(contentPanel, "Formulaire");
-        });
-
-        panel.add(btAddTask);
-        panel.add(btTrie);
-        panel.add(btAffichage);
-        panel.add(btSupprimer);
-
-        return panel;
-    }
-
-    private JPanel createFormulairePanel() {
-        AddTaskF addTaskF = new AddTaskF();
-        return addTaskF.createFormulairePanel();
     }
 
     private JPanel createLoginPanel() {
         LoginF loginF = new LoginF(contentPanel, cardLayout);
-        return loginF.createFormulaireLogin();
+        JPanel loginPanel = loginF.createFormulaireLogin(); // Crée le panneau de connexion
+
+        JButton loginButton = findLoginButton(loginPanel); // Trouve le bouton de connexion
+        if (loginButton != null) {
+            loginButton.addActionListener(e -> {
+                // Suppose que le login est réussi
+                isLoggedIn = true; // L'utilisateur est maintenant connecté
+                cardLayout.show(contentPanel, "Buttons"); // Afficher le panneau de tâches
+            });
+        }
+
+        return loginPanel;
     }
 
-    private JPanel createSignUpPanel() { // Correction de nom
-        Sign_upF signUp = new Sign_upF();
+    private JButton findLoginButton(JPanel loginPanel) {
+        // Parcours les composants pour trouver le bouton de connexion
+        for (Component comp : loginPanel.getComponents()) {
+            if (comp instanceof JButton && ((JButton) comp).getText().equals("Login")) {
+                return (JButton) comp; // Retourne le bouton s'il est trouvé
+            }
+        }
+        return null; // Retourne null si aucun bouton n'est trouvé
+    }
+
+    /*private JPanel createFormulairePanel() {
+        AddTaskF addTaskF = new AddTaskF();
+        return addTaskF.createFormulairePanel();
+    }*/
+
+    private JPanel createSignUpPanel() {
+        Sign_upF signUp = new Sign_upF(contentPanel, cardLayout);
         return signUp.createFormulaireSignUp();
     }
 
     private JToolBar createToolbar() {
         JToolBar toolbar = new JToolBar();
 
-        JButton btHome = new JButton("Accueil");
+       JButton btHome = new JButton("Accueil");
         btHome.addActionListener(e -> {
-            cardLayout.show(contentPanel, "Accueil");
+            if (isLoggedIn) {
+                cardLayout.show(contentPanel, "Buttons"); // Afficher le panneau de tâches
+            } else {
+                cardLayout.show(contentPanel, "Accueil"); // Afficher la page d'accueil par défaut
+            }
         });
 
         JButton btLogin = new JButton("Login");
@@ -99,6 +109,4 @@ public class myController extends JFrame {
 
         return toolbar;
     }
-
-
 }
