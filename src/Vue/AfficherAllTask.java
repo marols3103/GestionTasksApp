@@ -35,7 +35,7 @@ public class AfficherAllTask {
 
         List<TaskDatabase.Task> tasks = taskDatabase.getAllTasks();
 
-        // Ajouter les tâches au modèle de table
+
         for (TaskDatabase.Task task : tasks) {
             Object[] row = {
                     task.getId(),

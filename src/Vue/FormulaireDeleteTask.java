@@ -18,46 +18,61 @@ public class FormulaireDeleteTask {
 
     public JPanel createDeleteForm() {
         JPanel mainPanel = new JPanel();
+
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        // Panneau de formulaire
         JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+
         formPanel.add(new JLabel("ID:"));
+
         JTextField idField = new JTextField(20); // Champ texte pour l'ID
+
         formPanel.add(idField);
 
-        formPanel.add(new JLabel("Titre:")); // Correction du champ de titre
-        JTextField titreField = new JTextField(20); // Champ texte pour le titre
+        formPanel.add(new JLabel("Titre:"));
+
+        JTextField titreField = new JTextField(20);
+
         formPanel.add(titreField);
 
         mainPanel.add(formPanel);
 
-        // Bouton de suppression
+
         JButton deleteButton = new JButton("Supprimer");
-        mainPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Ajouter de l'espace entre les composants
+
+        mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
         mainPanel.add(deleteButton);
 
-        // Action pour supprimer la tâche
         deleteButton.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 try {
-                    int id = Integer.parseInt(idField.getText().trim()); // Convertir l'ID en entier
-                    String titre = titreField.getText().trim(); // Obtenir le texte du champ de titre
+                    int id = Integer.parseInt(idField.getText().trim());
+
+                    String titre = titreField.getText().trim();
 
                     DeleteTask delete = new DeleteTask();
+
                     if (delete.deleteTask(id, titre)) {
+
                         System.out.println("Tâche supprimée avec succès");
+
                     } else {
                         System.out.println("Échec de la suppression de la tâche");
+
                     }
                 } catch (NumberFormatException nfe) {
+
                     System.err.println("L'ID doit être un nombre entier");
                 }
             }
         });
 
-        return mainPanel; // Retourner le panneau principal
+        return mainPanel;
     }
 }

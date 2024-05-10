@@ -17,7 +17,6 @@ public class Tache {
         this.estComplete = false;
     }
 
-    // fonction pour retourner les  valeurs de chaque attributs
     public String getTitre(){
          return titre;
     }

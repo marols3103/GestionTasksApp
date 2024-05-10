@@ -10,7 +10,7 @@ public class MySQLConnection {
     public static Connection getConnection() {
 
         try {
-            // Charger le pilote JDBC MySQL
+
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             System.err.println("Pilote MySQL introuvable : " + e.getMessage());

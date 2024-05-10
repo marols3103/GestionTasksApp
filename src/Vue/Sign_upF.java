@@ -18,10 +18,14 @@ public class Sign_upF {
         JPanel panel = new JPanel(new BorderLayout());
 
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 5, 5));
+
         JTextField champName = new JTextField();
+
         JTextField champFirstName = new JTextField();
+
         JTextField champEmail = new JTextField();
-        JPasswordField champPassword = new JPasswordField(); // Pour les mots de passe
+
+        JPasswordField champPassword = new JPasswordField();
 
         formPanel.add(new JLabel("Nom:"));
         formPanel.add(champName);
@@ -41,14 +45,19 @@ public class Sign_upF {
         panel.add(boutonSoumettre, BorderLayout.SOUTH);
 
         boutonSoumettre.addActionListener(e -> {
+
             String name = champName.getText();
+
             String firstName = champFirstName.getText();
+
             String email = champEmail.getText();
+
             String password = new String(champPassword.getPassword());
 
             // Envoyer  les données dans la base de données MySQL
             try {
                 try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydatabase", "root", "");
+
                      PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Utilisateurs (name, firstName, email, password) VALUES (?, ?, ?, ?)")) {
 
                     pstmt.setString(1, name);

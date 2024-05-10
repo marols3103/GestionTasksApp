@@ -3,7 +3,6 @@ import java.sql.*;
 
 public class DeleteTask {
 
-    // Obtenir une connexion à la base de données
     private Connection getConnection() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/mydatabase";
         String user = "root";
@@ -11,7 +10,7 @@ public class DeleteTask {
         return DriverManager.getConnection(url, user, password);
     }
 
-    // Méthode pour supprimer une tâche par ID et titre
+
     public boolean deleteTask(int taskId, String taskTitle) {
         String deleteQuery = "DELETE FROM Taches WHERE id = ? AND titre = ?";
 

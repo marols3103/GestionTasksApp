@@ -54,25 +54,23 @@ public class ModifierTask {
 
                 Object newValue = tableModel.getValueAt(row, column);
 
-                // Conversion correcte pour "estFini"
+
                 if (column == 5) { // Colonne "estFini"
 
                     newValue = "Oui".equalsIgnoreCase((String) newValue) ? 1 : 0;
                 }
 
-                // Stocker la modification dans la carte des changements
 
                 changes.computeIfAbsent(row, k -> new HashMap<>()).put(column, newValue);
             }
         });
 
-        // Charger les données des tâches dans le tableau
+
         loadTaskData(tableModel);
 
         return panel;
     }
 
-    // Charger les données des tâches dans le modèle de table
 
     private void loadTaskData(DefaultTableModel tableModel) {
 
@@ -100,7 +98,7 @@ public class ModifierTask {
         }
     }
 
-    // Méthode pour enregistrer les modifications dans la base de données
+
     private void saveChangesToDatabase() {
 
         TaskDatabase taskDatabase = new TaskDatabase();
