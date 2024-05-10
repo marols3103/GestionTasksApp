@@ -6,18 +6,25 @@ import java.awt.*;
 
 public class myController extends JFrame {
     private JPanel contentPanel;
+
     private CardLayout cardLayout;
+
     private boolean isLoggedIn = false;
 
     private JToolBar currentToolbar;
 
     public myController() {
+
         super("Gestion des Tâches");
+
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
         setSize(900, 700);
+
         setLocationRelativeTo(null);
 
         cardLayout = new CardLayout();
+
         contentPanel = new JPanel(cardLayout);
 
         // Panneaux principaux
@@ -65,10 +72,10 @@ public class myController extends JFrame {
 
         setLayout(new BorderLayout());
 
-        // Ajouter le toolbar de connexion par défaut
+
         ToolbarConnexion toolbarConnexion = new ToolbarConnexion(contentPanel, cardLayout);
 
-        currentToolbar = toolbarConnexion.createToolbarConnexion(); // Suivre le toolbar actuel
+        currentToolbar = toolbarConnexion.createToolbarConnexion();
 
         getContentPane().add(currentToolbar, BorderLayout.NORTH);
 
@@ -101,19 +108,19 @@ public class myController extends JFrame {
 
                 if (loginF.isLoginSuccessful()) {
 
-                    isLoggedIn = true; // Mettre à jour l'état de connexion
+                    isLoggedIn = true;
 
-                    // Remplacer le toolbar actuel par le toolbar des tâches
-                    getContentPane().remove(currentToolbar); // Retirer l'ancien toolbar
+
+                    getContentPane().remove(currentToolbar);
 
                     TasksButtons tasksButtons = new TasksButtons(contentPanel, cardLayout);
 
-                    JToolBar currentToolbar02 = tasksButtons.createToolbarTasks(); // Nouveau toolbar
+                    JToolBar currentToolbar02 = tasksButtons.createToolbarTasks();
 
-                    getContentPane().add(currentToolbar02, BorderLayout.NORTH); // Ajouter le nouveau
+                    getContentPane().add(currentToolbar02, BorderLayout.NORTH);
 
 
-                    // Revalider le layout pour prendre en compte les changements
+
                     getContentPane().revalidate();
                     getContentPane().repaint();
                 }
@@ -122,22 +129,31 @@ public class myController extends JFrame {
     }
 
     private JPanel createSignUpPanel() {
+
         Sign_upF signUp = new Sign_upF(contentPanel, cardLayout);
+
         return signUp.createFormulaireSignUp();
     }
 
     private JPanel createLogoutPanel() {
-        isLoggedIn = false; // Indiquer que l'utilisateur est déconnecté
+
+        isLoggedIn = false;
+
         Accueil accueil = new Accueil();
+
         return accueil.bienvenuMessage();
     }
 
     private JPanel formulaireTask(){
+
         AddTaskF addTaskF = new AddTaskF();
+
         return addTaskF.createFormulaireTask();
     }
     private JPanel allTasks(){
+
         AfficherAllTask afficherAllTask = new AfficherAllTask();
+
         return afficherAllTask.createTaskPanel();
 
     }
@@ -145,8 +161,11 @@ public class myController extends JFrame {
     private JPanel loGout(){
 
         ToolbarConnexion toolbarConnexion = new ToolbarConnexion(contentPanel, cardLayout);
-        currentToolbar = toolbarConnexion.createToolbarConnexion(); // Suivre le toolbar actuel
+
+        currentToolbar = toolbarConnexion.createToolbarConnexion();
+
         getContentPane().add(currentToolbar, BorderLayout.NORTH);
+
         isLoggedIn = false;
         getContentPane().add(contentPanel, BorderLayout.CENTER);
 
@@ -155,7 +174,9 @@ public class myController extends JFrame {
     }
 
     private JPanel modifierTask(){
+
         ModifierTask modifierTask = new ModifierTask();
+
         return modifierTask.createTaskPanelModification();
     }
 
