@@ -3,9 +3,13 @@ import javax.swing.*;
 import Controller.*;
 import Model.MySQLConnection;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import java.awt.*;
 import java.sql.Connection;
 public class Main {
+    private JPanel contentPanel;
+    private CardLayout cardLayout;
     public static void main(String[] args) throws Exception{
+
         try{
             // ajouter  lookAndFeel pour mise en page
             UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -15,6 +19,7 @@ public class Main {
             myController myInterface = new myController();
 
             myInterface.setVisible(true);
+
 
         }catch(ExceptionInInitializerError e){
 

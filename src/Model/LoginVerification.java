@@ -30,7 +30,7 @@ public class LoginVerification {
 
                     if (rs.next() && rs.getInt(1) > 0) {
 
-                        return true; // L'utilisateur existe
+                        return true;
                     }
                 }
             }
@@ -39,6 +39,6 @@ public class LoginVerification {
             logger.log(Level.SEVERE, "Erreur lors de la connexion à la base de données", e);
         }
 
-        return false; // L'utilisateur n'existe pas ou une erreur est survenue
+        return false;
     }
 }

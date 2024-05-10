@@ -10,14 +10,10 @@ public class MySQLConnection {
     public static Connection getConnection() {
 
         try {
-            // code permettant de charger le pilote JDBC MySQL
-
+            // Charger le pilote JDBC MySQL
             Class.forName("com.mysql.cj.jdbc.Driver");
-
         } catch (ClassNotFoundException e) {
-
             System.err.println("Pilote MySQL introuvable : " + e.getMessage());
-
             return null;
         }
 
@@ -33,8 +29,6 @@ public class MySQLConnection {
 
         try {
 
-
-
             conn = DriverManager.getConnection(baseUrl, user, password);
 
             System.out.println("Connexion réussie!");
@@ -45,11 +39,14 @@ public class MySQLConnection {
                 stmt.execute("CREATE DATABASE IF NOT EXISTS " + dbName);
             }
 
+
             conn = DriverManager.getConnection(baseUrl + dbName, user, password);
+
+
 
             try (Statement stmt = conn.createStatement()) {
 
-                // Table des utilisateurs
+
                 String createTableUsersQuery = "CREATE TABLE IF NOT EXISTS Utilisateurs ("
 
                         + "id INT AUTO_INCREMENT PRIMARY KEY, "
@@ -63,7 +60,7 @@ public class MySQLConnection {
                         + "password VARCHAR(30)"
                         + ")";
 
-                // Table des tâches
+
                 String createTableTasksQuery = "CREATE TABLE IF NOT EXISTS Taches ("
 
                         + "id INT AUTO_INCREMENT PRIMARY KEY, "
@@ -74,18 +71,18 @@ public class MySQLConnection {
 
                         + "dateEcheance DATE, "
 
-                        + "priority VARCHAR(50)"
+                        + "priority VARCHAR(50), "
 
+                        + "estFini BOOLEAN DEFAULT FALSE" // Définir le défaut
                         + ")";
-                //Execution des requetes
+
                 stmt.execute(createTableUsersQuery);
 
                 stmt.execute(createTableTasksQuery);
             }
 
         } catch (SQLException e) {
-
-            System.err.println("Erreur lors de la connexion à MySQL  ");
+            System.err.println("Erreur lors de la connexion à MySQL ou lors de l'exécution des commandes SQL: " + e.getMessage());
             e.printStackTrace();
             return null;
         }

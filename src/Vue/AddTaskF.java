@@ -37,12 +37,7 @@ public class AddTaskF extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
-
-        // Ajout des champs au formulaire
-        /*formPanel.add(new JLabel("Id:"));
-        JTextField champId = new JTextField();
-        formPanel.add(champId);*/
+        JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
 
         formPanel.add(new JLabel("Titre:"));
 
@@ -50,13 +45,11 @@ public class AddTaskF extends JFrame {
 
         formPanel.add(champTitre);
 
-
         formPanel.add(new JLabel("Description:"));
 
         JTextField champDescription = new JTextField();
 
         formPanel.add(champDescription);
-
 
         formPanel.add(new JLabel("Date d'échéance:"));
 
@@ -70,8 +63,13 @@ public class AddTaskF extends JFrame {
 
         formPanel.add(champPriority);
 
-        panel.add(formPanel, BorderLayout.CENTER);
+        formPanel.add(new JLabel("Est fini ?"));
 
+        JCheckBox champEstFini = new JCheckBox();
+
+        formPanel.add(champEstFini);
+
+        panel.add(formPanel, BorderLayout.CENTER);
 
         JButton boutonSoumettre = new JButton("Soumettre");
 
@@ -79,22 +77,20 @@ public class AddTaskF extends JFrame {
 
         boutonSoumettre.addActionListener(e -> {
             try {
-
                 String titre = champTitre.getText();
 
                 String description = champDescription.getText();
 
                 String priority = champPriority.getText();
 
-                String dateEcheanceStr = champDateEcheance.getText();
+                boolean estFini = champEstFini.isSelected(); // Booléen
 
-                //verification du format de  la date
+
+                String dateEcheanceStr = champDateEcheance.getText();
                 Date dateEcheance;
 
                 try {
-
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
 
                     dateFormat.setLenient(false);
 
@@ -109,35 +105,45 @@ public class AddTaskF extends JFrame {
                 Connection conn = MySQLConnection.getConnection();
 
                 if (conn != null) {
+
                     try {
-                        String sql = "INSERT INTO Taches ( titre, description, dateEcheance, priority) VALUES (?, ?, ?, ?, ?)";
+                        String sql = "INSERT INTO Taches (titre, description, dateEcheance, priority, estFini) VALUES (?, ?, ?, ?, ?)";
 
                         PreparedStatement pstmt = conn.prepareStatement(sql);
 
-                        //pstmt.setInt(1, id);
-                        pstmt.setString(2, titre);
+                        pstmt.setString(1, titre);
 
-                        pstmt.setString(3, description);
+                        pstmt.setString(2, description);
 
-                        pstmt.setDate(4, dateEcheance);
-                        
-                        pstmt.setString(5, priority);
+                        pstmt.setDate(3, dateEcheance);
+
+                        pstmt.setString(4, priority);
+
+                        pstmt.setBoolean(5, estFini);
 
                         pstmt.executeUpdate();
 
                         JOptionPane.showMessageDialog(panel, "Tâche ajoutée avec succès!", "Succès", JOptionPane.INFORMATION_MESSAGE);
+
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(panel, "Erreur lors de l'insertion dans la base de données : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+
+                        JOptionPane.showMessageDialog(panel, "Erreur lors de l'insertion dans la base de données: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+
                     } finally {
+
                         try {
-                            conn.close(); // Fermer la connexion
+
+                            conn.close();
+
                         } catch (SQLException ex) {
-                            System.err.println("Erreur lors de la fermeture de la connexion : " + ex.getMessage());
+
+                            System.err.println("Erreur lors de la fermeture de la connexion: " + ex.getMessage());
                         }
                     }
                 }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(panel, "L'ID doit être un nombre entier.", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+                
+                JOptionPane.showMessageDialog(panel, "Erreur lors de l'ajout de la tâche.", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
 
             cardLayout.show(contentPanel, "Accueil");

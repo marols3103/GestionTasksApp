@@ -3,55 +3,82 @@ package Vue;
 import javax.swing.*;
 import java.awt.*;
 
-public class TasksButtons extends JFrame {
+public class TasksButtons {
     private JPanel contentPanel;
-
     private CardLayout cardLayout;
-
-    public TasksButtons(JPanel contentPanel, CardLayout cardLayout) {
-
-        this.contentPanel = contentPanel;
-
+    //Boolean isLoggedIn = false;
+    public TasksButtons(JPanel panel,CardLayout cardLayout){
+        this.contentPanel = panel;
         this.cardLayout = cardLayout;
     }
+    public JToolBar createToolbarTasks() {
 
-    public JPanel createButtonsTasks() {
+        JToolBar toolbar = new JToolBar();
 
-        JPanel panel = new JPanel();
-
-        JButton btAddTask = new JButton("Ajouter Tâche");
-
-        JButton btTrie = new JButton("Trier Tâches");
-
-        JButton btAffichage = new JButton("Afficher Tâches");
-
-        JButton btSupprimer = new JButton("Supprimer Tâches");
-
+        JButton btAddTask = new JButton("AjoutTache");
 
         btAddTask.addActionListener(e -> {
 
-            JPanel ajouterTachesPanel = AjouterTaches();
+        /*if (isLoggedIn) {
 
-            contentPanel.add(ajouterTachesPanel, "AjouterTaches");
+            cardLayout.show(contentPanel, "Buttons");
 
-            cardLayout.show(contentPanel, "AjouterTaches");
+        } else {*/
+
+            cardLayout.show(contentPanel, "AjoutTache");
+
         });
 
-        panel.add(btAddTask);
 
-        panel.add(btTrie);
+        JButton btAffichage = new JButton("Afficher");
 
-        panel.add(btAffichage);
+        btAffichage.addActionListener(e -> {
 
-        panel.add(btSupprimer);
+            cardLayout.show(contentPanel, "Afficher");
+        });
 
-        return panel;
+        JButton btSuppression= new JButton("Supprimer");
+
+        btSuppression.addActionListener(e -> {
+
+            cardLayout.show(contentPanel, "Supprimer");
+        });
+
+        JButton btTriage= new JButton("Trier");
+
+        btTriage.addActionListener(e -> {
+
+            cardLayout.show(contentPanel, "Trier");
+        });
+
+        JButton btModification= new JButton("Modifier");
+
+        btModification.addActionListener(e -> {
+
+
+            cardLayout.show(contentPanel, "Modifier");
+        });
+
+        JButton btLogOut= new JButton("LogOut");
+
+        btLogOut.addActionListener(e -> {
+
+
+            cardLayout.show(contentPanel, "LogOut");
+        });
+
+
+
+        toolbar.add(btModification);
+        toolbar.add(btAddTask);
+        toolbar.add(btSuppression);
+        toolbar.add(btTriage);
+        toolbar.add(btAffichage);
+        toolbar.add(btLogOut);
+
+
+
+        return toolbar;
     }
 
-    public JPanel AjouterTaches() {
-
-        AddTaskF addTaskF = new AddTaskF();
-
-        return addTaskF.createFormulaireTask(); // Votre méthode de création de tâches
-    }
 }
