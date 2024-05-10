@@ -9,14 +9,14 @@ import java.util.List;
 public class AfficherAllTask {
 
     public JPanel createTaskPanel() {
-        // Créer un nouveau modèle de table avec les colonnes appropriées
+
         String[] columns = {"ID", "Titre", "Description", "Date d'échéance", "Priorité", "Est fini"};
 
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
 
         JTable table = new JTable(tableModel);
 
-        // Ajouter la table à un `JScrollPane` pour permettre le défilement
+
         JScrollPane scrollPane = new JScrollPane(table);
 
         JPanel panel = new JPanel(new BorderLayout());
@@ -28,7 +28,7 @@ public class AfficherAllTask {
         return panel;
     }
 
-    // Méthode pour charger les données des tâches dans le modèle de table
+
     private void loadTaskData(DefaultTableModel tableModel) {
 
         TaskDatabase taskDatabase = new TaskDatabase();

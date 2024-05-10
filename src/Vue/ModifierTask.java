@@ -25,7 +25,7 @@ public class ModifierTask {
             @Override
             public boolean isCellEditable(int row, int column) {
 
-                return column > 0; // Permettre l'édition sauf pour l'ID
+                return column > 0;
             }
         };
 
@@ -37,12 +37,10 @@ public class ModifierTask {
 
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        // Ajouter un bouton "Enregistrer"
         JButton saveButton = new JButton("Enregistrer");
 
         panel.add(saveButton, BorderLayout.SOUTH);
 
-        // écouteur d'événements pour le bouton "Enregistrer"
         saveButton.addActionListener(e -> saveChangesToDatabase());
 
         // Détecter les modifications dans le tableau
@@ -121,12 +119,12 @@ public class ModifierTask {
 
                     Object newValue = change.getValue();
 
-                    if (column == 5) { // Conversion correcte pour "estFini"
+                    if (column == 5) {
 
                         newValue = ((int) newValue == 1) ? 1 : 0;
                     }
 
-                    String columnName = getColumnName(column); // Obtenir le nom de la colonne correspondante
+                    String columnName = getColumnName(column);
 
                     String updateQuery = String.format(
                             "UPDATE Taches SET %s = ? WHERE id = ?",
@@ -135,24 +133,22 @@ public class ModifierTask {
 
                     try (PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
 
-                        pstmt.setObject(1, newValue); // Nouvelle valeur
+                        pstmt.setObject(1, newValue);
+                        pstmt.setInt(2, task.getId());
 
-                        pstmt.setInt(2, task.getId()); // ID de la tâche
-
-                        pstmt.executeUpdate(); // Exécuter la mise à jour
+                        pstmt.executeUpdate();
 
                     }
                 }
             }
 
-            changes.clear(); // Effacer les modifications une fois enregistrées
+            changes.clear();
 
         } catch (SQLException ex) {
             System.err.println("Erreur lors de l'enregistrement des modifications : " + ex.getMessage());
         }
     }
 
-    // Méthode pour obtenir le nom de la colonne correspondant au numéro de colonne
     private String getColumnName(int column) {
         switch (column) {
             case 1: return "titre";

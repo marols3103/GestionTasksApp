@@ -22,7 +22,7 @@ public class TaskDatabase {
 
         List<Task> tasks = new ArrayList<>();
 
-        String query = "SELECT * FROM Taches WHERE estFini =false";
+        String query = "SELECT * FROM Taches WHERE estFini = false";
 
         try (Connection conn = getConnection();
 

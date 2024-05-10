@@ -1,5 +1,4 @@
 package Vue;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,7 +8,7 @@ import Model.LoginVerification;
 public class LoginF {
     private JPanel contentPanel;
     private CardLayout cardLayout;
-    private boolean loginSuccessful = false; // Variable d'état pour indiquer si la connexion a réussi
+    private boolean loginSuccessful = false;
 
     public LoginF(JPanel contentPanel, CardLayout cardLayout) {
         this.contentPanel = contentPanel;
@@ -33,12 +32,12 @@ public class LoginF {
 
         mainPanel.add(formPanel);
 
-        // Bouton de connexion
+
         JButton loginButton = new JButton("Connexion");
         mainPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Ajout d'espace entre les composants
         mainPanel.add(loginButton);
 
-        // ActionListener pour le bouton de connexion
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,22 +56,16 @@ public class LoginF {
 
                 if (loginVerification.isValidUser(email, password)) {
                     loginSuccessful = true; // Marquer la connexion comme réussie
-/*
+
                     // Afficher un message de succès
                     JOptionPane.showMessageDialog(mainPanel, "Connexion réussie!", "Succès", JOptionPane.INFORMATION_MESSAGE);
 
-                    // Créer le toolbar des tâches
-                    TasksButtons tasksButtons = new TasksButtons(contentPanel, cardLayout);
-                    JToolBar tasksToolbar = tasksButtons.createToolbarTasks();
-                    // Ajouter le toolbar au conteneur principal
-                    Container parentFrame = SwingUtilities.getAncestorOfClass(JFrame.class, mainPanel);
-                    if (parentFrame != null && parentFrame instanceof JFrame) {
-                        JFrame frame = (JFrame) parentFrame;
-                        frame.getContentPane().add(tasksToolbar, BorderLayout.SOUTH); // Fixer le toolbar en haut
-                    }
-*/
+                    // Vider les champs après une connexion réussie
+                    emailField.setText("");
+                    passwordField.setText("");
+
                     // Naviguer vers un autre panneau
-                    //cardLayout.show(contentPanel, "NextPanel");
+                    // cardLayout.show(contentPanel, "NextPanel");
                 } else {
                     loginSuccessful = false;
 

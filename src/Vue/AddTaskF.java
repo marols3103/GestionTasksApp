@@ -1,19 +1,16 @@
 package Vue;
-
-import Model.MySQLConnection;
 import javax.swing.*;
 import java.awt.*;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import Model.MySQLConnection;
 
 public class AddTaskF extends JFrame {
-
     private JPanel contentPanel;
-
     private CardLayout cardLayout;
 
     public AddTaskF() {
@@ -37,13 +34,15 @@ public class AddTaskF extends JFrame {
 
         JPanel panel = new JPanel(new BorderLayout());
 
-        JPanel formPanel = new JPanel(new GridLayout(5, 2, 10, 10));
+        JPanel formPanel = new JPanel(new GridLayout(6, 2, 10, 10));
+
 
         formPanel.add(new JLabel("Titre:"));
 
         JTextField champTitre = new JTextField();
 
         formPanel.add(champTitre);
+
 
         formPanel.add(new JLabel("Description:"));
 
@@ -59,9 +58,29 @@ public class AddTaskF extends JFrame {
 
         formPanel.add(new JLabel("Priorité:"));
 
-        JTextField champPriority = new JTextField();
+        JRadioButton lowPriority = new JRadioButton("Faible");
 
-        formPanel.add(champPriority);
+        JRadioButton mediumPriority = new JRadioButton("Moyenne");
+
+        JRadioButton highPriority = new JRadioButton("Élevée");
+
+        ButtonGroup priorityGroup = new ButtonGroup();
+
+        priorityGroup.add(lowPriority);
+
+        priorityGroup.add(mediumPriority);
+
+        priorityGroup.add(highPriority);
+
+        JPanel priorityPanel = new JPanel(new GridLayout(1, 3));
+
+        priorityPanel.add(lowPriority);
+
+        priorityPanel.add(mediumPriority);
+
+        priorityPanel.add(highPriority);
+
+        formPanel.add(priorityPanel);
 
         formPanel.add(new JLabel("Est fini ?"));
 
@@ -77,16 +96,26 @@ public class AddTaskF extends JFrame {
 
         boutonSoumettre.addActionListener(e -> {
             try {
+
                 String titre = champTitre.getText();
 
                 String description = champDescription.getText();
 
-                String priority = champPriority.getText();
+                String priority = "Moyenne";
 
-                boolean estFini = champEstFini.isSelected(); // Booléen
+                if (highPriority.isSelected()) {
 
+                    priority = "Élevée";
+
+                } else if (lowPriority.isSelected()) {
+
+                    priority = "Faible";
+                }
+
+                boolean estFini = champEstFini.isSelected();
 
                 String dateEcheanceStr = champDateEcheance.getText();
+
                 Date dateEcheance;
 
                 try {
@@ -125,30 +154,29 @@ public class AddTaskF extends JFrame {
 
                         JOptionPane.showMessageDialog(panel, "Tâche ajoutée avec succès!", "Succès", JOptionPane.INFORMATION_MESSAGE);
 
+                        // Vider les champs après l'ajout réussi
+                        champTitre.setText("");
+
+                        champDescription.setText("");
+
+                        champDateEcheance.setText("");
+
+                        priorityGroup.clearSelection();
+
+                        champEstFini.setSelected(false);
+
                     } catch (SQLException ex) {
 
-                        JOptionPane.showMessageDialog(panel, "Erreur lors de l'insertion dans la base de données: " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
-
-                    } finally {
-
-                        try {
-
-                            conn.close();
-
-                        } catch (SQLException ex) {
-
-                            System.err.println("Erreur lors de la fermeture de la connexion: " + ex.getMessage());
-                        }
+                        JOptionPane.showMessageDialog(panel, "Erreur lors de l'insertion dans la base de données " );
                     }
                 }
-            } catch (NumberFormatException ex) {
-                
-                JOptionPane.showMessageDialog(panel, "Erreur lors de l'ajout de la tâche.", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(panel, "Erreur lors de l'ajout de la tâche.");
             }
-
-            cardLayout.show(contentPanel, "Accueil");
         });
 
         return panel;
     }
+
+
 }
