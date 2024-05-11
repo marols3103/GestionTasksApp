@@ -1,5 +1,6 @@
 package Controller;
 
+import Model.TaskDatabase;
 import Vue.*;
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +49,8 @@ public class myController extends JFrame {
 
         JPanel suppression = supprimerTask();
 
+        JPanel triageCallTool = triageFonction();
+
 
         // Ajout des panneaux au CardLayout
         contentPanel.add(defaultAccueil, "Accueil");
@@ -66,6 +69,8 @@ public class myController extends JFrame {
 
         contentPanel.add(ModifierTask,"Modifier");
         contentPanel.add(suppression,"Supprimer");
+
+        contentPanel.add(triageCallTool,"Trier");
 
 
 
@@ -153,6 +158,8 @@ public class myController extends JFrame {
     private JPanel allTasks(){
 
         AfficherAllTask afficherAllTask = new AfficherAllTask();
+        TaskDatabase taskDatabase = new TaskDatabase();
+
 
         return afficherAllTask.createTaskPanel();
 
@@ -183,6 +190,13 @@ public class myController extends JFrame {
     private JPanel supprimerTask(){
         FormulaireDeleteTask formulaireDeleteTask = new FormulaireDeleteTask(contentPanel,cardLayout);
         return  formulaireDeleteTask.createDeleteForm();
+    }
+
+    private JPanel triageFonction(){
+
+        Triage triage =new Triage();
+
+        return  triage.createTriagePanel();
     }
 
 }

@@ -1,46 +1,36 @@
 package Model;
+
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
 
-public class TaskDatabase {
+public class AllTasks {
 
-    // Méthode pour trier les tâches par date d'échéance
-    public List<Task> tasksSortedByDate() {
-        List<Task> tasks = getAllTasks();
-        Collections.sort(tasks, new Comparator<Task>() {
-            @Override
-            public int compare(Task task2, Task task1) {
-                return task2.getDueDate().compareTo(task1.getDueDate());
-            }
-        });
-        return tasks;
-    }
 
-    // Méthode pour trier les tâches par priorité
-    public List<Task> tasksSortedByPriority() {
-        List<Task> tasks = getAllTasks();
-        Collections.sort(tasks, new Comparator<Task>() {
-            @Override
-            public int compare(Task task2, Task task1) {
-                return task1.getPriority().compareTo(task2.getPriority());
-            }
-        });
-        return tasks;
+    public Connection getConnection() throws SQLException {
+
+        String url = "jdbc:mysql://localhost:3306/mydatabase";
+
+        String user = "root";
+
+        String password = "";
+
+        return DriverManager.getConnection(url, user, password);
     }
 
     // Méthode pour récupérer toutes les tâches
     public List<Task> getAllTasks() {
         return getTasks("SELECT * FROM Taches");
     }
-
+/*
     // Méthode pour récupérer les tâches non terminées
     public List<Task> getUnfinishedTasks() {
-        return getTasks("SELECT * FROM Taches WHERE estFini = false OR dateEcheance >= CURDATE()");
+        return getTasks("SELECT * FROM Taches");
     }
+*/
+    // Méthode générique pour récupérer les tâches en fonction d'une requête SQL donnée
     private List<Task> getTasks(String query) {
         List<Task> tasks = new ArrayList<>();
 
@@ -108,13 +98,5 @@ public class TaskDatabase {
         public String getDescription() {
             return description;
         }
-    }
-
-    // Méthode de connexion à la base de données
-    public Connection getConnection() throws SQLException {
-        String url = "jdbc:mysql://localhost:3306/mydatabase";
-        String user = "root";
-        String password = "";
-        return DriverManager.getConnection(url, user, password);
     }
 }

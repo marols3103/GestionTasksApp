@@ -20,7 +20,6 @@ public class Main {
 
             myInterface.setVisible(true);
 
-
         }catch(ExceptionInInitializerError e){
 
             e.getStackTrace();

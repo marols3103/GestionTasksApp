@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import Model.MySQLConnection;
+import Model.TaskDatabase;
 
 public class AddTaskF extends JFrame {
     private JPanel contentPanel;
@@ -151,6 +152,10 @@ public class AddTaskF extends JFrame {
                         pstmt.setBoolean(5, estFini);
 
                         pstmt.executeUpdate();
+
+                        TaskDatabase taskDatabase = new TaskDatabase();
+                        taskDatabase.getUnfinishedTasks();
+
 
                         JOptionPane.showMessageDialog(panel, "Tâche ajoutée avec succès!", "Succès", JOptionPane.INFORMATION_MESSAGE);
 

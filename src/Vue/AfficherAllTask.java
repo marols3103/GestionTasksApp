@@ -33,7 +33,7 @@ public class AfficherAllTask {
 
         TaskDatabase taskDatabase = new TaskDatabase();
 
-        List<TaskDatabase.Task> tasks = taskDatabase.getAllTasks();
+        List<TaskDatabase.Task> tasks = taskDatabase.getUnfinishedTasks();
 
 
         for (TaskDatabase.Task task : tasks) {

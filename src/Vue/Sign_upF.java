@@ -69,6 +69,7 @@ public class Sign_upF {
                     pstmt.executeUpdate();
 
                     JOptionPane.showMessageDialog(panel, "Vous êtes inscrit  !", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(panel,"votre email et votre password sont vos login");
 
                     if (cardLayout != null && contentPanel != null) {
                         cardLayout.show(contentPanel, "Accueil");
